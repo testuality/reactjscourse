@@ -6,7 +6,7 @@ import CountryPicker from "./components/CountryPicker/CountryPicker";
 import styles from "./App.module.css";
 import {fetchData} from "./api/index";
 
-// https://youtu.be/khJlrj3Y6Ls?list=PLd6Igc0Cu9vUwgcEdFOfQN1m4nq6pU3iX&t=2637
+// https://youtu.be/khJlrj3Y6Ls?list=PLd6Igc0Cu9vUwgcEdFOfQN1m4nq6pU3iX&t=3291
 
 class App extends React.Component {
 
