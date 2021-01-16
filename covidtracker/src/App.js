@@ -11,22 +11,35 @@ import {fetchData} from "./api/index";
 class App extends React.Component {
 
     state = {
-      data: {}
+      data: {},
+      country: ""
     };
 
     componentDidMount() {
       fetchData().then((data) => {
-        console.log("Obtenido el resultado", data);
-        this.setState({data: data});
+        console.log("Obtenido el resultado refinado", data);
+        this.setState({data: data, country: this.state.country}, () => {
+          console.log("Nuevo state ", this.state);
+        });
       });
+    };
+
+    handleCountryChange = (newCountry) => {
+      fetchData(newCountry).then((data) => {
+        console.log("resultado refinado para el pais", newCountry, data);
+        this.setState({data: data, country: newCountry}, () => {
+          console.log("Nuevo state country", this.state);
+        });
+      });
+      // setState({data: state.data, country: newCountry});
     }
 
     render() {
       return (
         <div className={styles.container}>
           <Cards data={this.state.data}/>
-          <CountryPicker/>
-          <Chart/>
+          <CountryPicker handleCountryChange={this.handleCountryChange}/>
+          <Chart data={this.state.data} country= {this.state.country}/>
         </div>
       );
     }

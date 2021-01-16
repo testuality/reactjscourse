@@ -1,24 +1,47 @@
 import React, { useState, useEffect} from "react";
 import { fetchDailyData} from "./../../api/index";
 import {Line, Bar} from "react-chartjs-2";
-import styles from "./Chart.module.css";
+import  "./Chart.module.css";
 
-const Chart = () => {
+const Chart = ({data, country}) => {
 
-    const [dailyData, setDailyData] = useState({});
+    const [dailyData, setDailyData] = useState([]);
 
     useEffect(() => {
-        console.log("useeff chart");
         fetchDailyData().then((data) => {
-            console.log("useeffect chart data ", data);
-            setDailyData(data);
+            setDailyData(data.map((item)=> {
+                    return {reportDate: item.reportDate,
+                            totalConfirmed: item.totalConfirmed,
+                            totalDeaths: item.deaths.total};
+                }));
         });
     }, []);
 
-    let lineChart = "Loading...";
-    if (dailyData[0]) {
-        lineChart = (
+    let chart = "Loading...";
+    if (data.confirmed && country && country !== "global") {
+        chart = <Bar
+                height={600}
+                width={800}
+                data={{
+                        labels: ["Infected", "Recovered", "Death"],
+                        datasets: [{
+                            label: "People",
+                            backgroundColor: ["rgba(0,0,255,0.5)",  "rgba(0,255,0,0.5)", "rgba(255,0,0,0.5)"],
+                            data: [data.confirmed, data.recovered, data.deaths]
+                        }]
+                    }}
+                    options={{
+                        legend: {display: false},
+                        title: {display: true, text: `Current state in ${country}`}
+                    }}
+                    
+                />
+    }
+    else if (dailyData.length > 0) {
+        chart = (
         <Line
+            height={600}
+            width={800}
             data= {
                 {labels: dailyData.map((item) => {return item.reportDate }), 
                 datasets: 
@@ -30,7 +53,7 @@ const Chart = () => {
                             fill: true
                         },
                         {
-                            data: dailyData.map((item) => {return item.deaths.total}),
+                            data: dailyData.map((item) => {return item.totalDeaths}),
                             label: "Deaths",
                             borderColor: "red",
                             backgroundColor: "rgba(255,0,0,0.5)",
@@ -44,8 +67,8 @@ const Chart = () => {
     }
 
     return (
-        <div className="container">
-            {lineChart}
+        <div className="containerx">
+            {chart}
         </div>
     );
 }

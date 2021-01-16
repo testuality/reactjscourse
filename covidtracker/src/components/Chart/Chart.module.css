@@ -1,0 +1,9 @@
+.containerx {
+    border-width: 3px;
+    border-color: red;
+    border-style: solid;
+    background-color: salmon;
+    display: flex;
+    justify-content: center;
+    width: 85%;
+}

@@ -6,9 +6,10 @@ import cx from "classnames";
 
 const Cards = (props) => {
 
-    if (!props.data.confirmed) {
+    if (!props.data || !props.data.confirmed) {
         return (<div>Loading...</div>);
     }
+    console.log("Pintando card con estos props ", props);
     return (
         <div className={styles.container}>
             <Grid container spacing={3} justify="center">
@@ -20,7 +21,7 @@ const Cards = (props) => {
                         <Typography variant="h5">
                             <Countup
                                 start={0}
-                                end={props.data.confirmed.value}
+                                end={props.data.confirmed}
                                 duration={2.5}
                                 separator=","/>
                         </Typography>
@@ -39,7 +40,7 @@ const Cards = (props) => {
                         <Typography variant="h5">
                         <Countup
                                 start={0}
-                                end={props.data.recovered.value}
+                                end={props.data.recovered}
                                 duration={2.5}
                                 separator=","/>
                         </Typography>
@@ -58,7 +59,7 @@ const Cards = (props) => {
                         <Typography variant="h5">
                         <Countup
                                 start={0}
-                                end={props.data.deaths.value}
+                                end={props.data.deaths}
                                 duration={2.5}
                                 separator=","/>
                         </Typography>
