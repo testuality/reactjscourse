@@ -22,7 +22,7 @@ const exerciseSchema = new Schema(
         {
             type: Date,
             required: true
-        },
+        }
     
     },
     {
